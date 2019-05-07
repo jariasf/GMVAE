@@ -9,6 +9,7 @@ Loss functions used for training our model
 """
 
 import tensorflow as tf
+import numpy as np
 
 class LossFunctions:
     eps = 0.

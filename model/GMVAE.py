@@ -14,7 +14,6 @@ from networks.Networks import *
 from losses.LossFunctions import *
 from metrics.Metrics import *
 from utils.partition import *
-from utils.assignment import *
 
 class GMVAE:
 
