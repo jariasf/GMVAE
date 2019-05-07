@@ -113,7 +113,7 @@ class LossFunctions:
                                 of all the sample losses or an array with the losses per sample
       """
       if self.eps > 0.0:
-        var = val + self.eps
+        var = var + self.eps
       return -0.5 * tf.reduce_sum(
         tf.log(2 * np.pi) + tf.log(var) + tf.square(x - mu) / var, axis=-1)
     

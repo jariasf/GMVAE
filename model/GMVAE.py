@@ -13,7 +13,6 @@ import numpy as np
 from networks.Networks import *
 from losses.LossFunctions import *
 from metrics.Metrics import *
-from utils.partition import *
 
 class GMVAE:
 
@@ -252,8 +251,7 @@ class GMVAE:
           # run the tensorflow flow graph
           loss_rec_ul, loss_gauss_ul, loss_cat_ul, loss_total, true_labels, predicted_labels = self.sess.run([ 
                                                      model_spec['loss_rec_ul'], model_spec['loss_gauss_ul'], 
-                                                     model_spec['loss_categ_ul'],
-                                                     model_spec['loss_total'], 
+                                                     model_spec['loss_categ_ul'],model_spec['loss_total'], 
                                                      model_spec['true_labels'], model_spec['predicted']],
                                                      feed_dict={self.network.temperature: self.temperature,
                                                                 self.learning_rate: self.lr})     

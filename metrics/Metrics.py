@@ -8,10 +8,10 @@ Metrics used to evaluate our model
 
 """
 
-import tensorflow as tf
+import numpy as np
 
 class Metrics:
-  
+
   # Code taken from the work 
   # VaDE (Variational Deep Embedding:A Generative Approach to Clustering)
   def cluster_acc(self, Y_pred, Y):
@@ -24,7 +24,8 @@ class Metrics:
       w[Y_pred[i], Y[i]] += 1
     ind = linear_assignment(w.max() - w)
     return sum([w[i,j] for i,j in ind])*1.0/Y_pred.size
-  
+
+
   def nmi(self, Y_pred, Y):
     Y_pred, Y = np.array(Y_pred), np.array(Y)
     assert Y_pred.size == Y.size
