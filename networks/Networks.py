@@ -3,7 +3,7 @@
 -- Author: Jhosimar George Arias Figueroa
 ---------------------------------------------------------------------
 
-Categorical Variational Autoencoder Networks
+Gaussian Mixture Variational Autoencoder Networks
 
 """
 
@@ -149,7 +149,7 @@ class Networks:
         out = tf.layers.dense(out, units=512)
         out = tf.nn.relu(out)
         out = tf.layers.dense(out, units=output_size)
-        if self.dataset == 'mnist':
+        if self.loss_type == 'bce':
           reconstructed = tf.nn.sigmoid(out)
         else:
           reconstructed = out
@@ -186,8 +186,7 @@ class Networks:
       Returns:
         (dict) contains the features, gaussian and categorical information
       """
-      if self.dataset == 'mnist':
-        latent_spec = self.encoder_fc(input_data, num_classes, is_training)
+      latent_spec = self.encoder_fc(input_data, num_classes, is_training)
       return latent_spec
     
     
@@ -203,6 +202,5 @@ class Networks:
       Returns:
         (array) array containing the generated/reconstructed image
       """
-      if self.dataset == 'mnist':
-        output = self.decoder_fc(gaussian, categorical, output_size, is_training)
+      output = self.decoder_fc(gaussian, categorical, output_size, is_training)
       return output

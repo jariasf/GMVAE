@@ -3,7 +3,7 @@
 -- Author: Jhosimar George Arias Figueroa
 ---------------------------------------------------------------------
 
-Semisupervised generative model with metric embedding auxiliary task
+Gaussian Mixture Variational Autoencoder for Unsupervised Clustering
 
 """
 
@@ -46,7 +46,7 @@ class GMVAE:
       self.metrics = Metrics()
       
     
-    def create_dataset(self, is_training, data, labels, batch_size, x_labeled = None, y_labeled = None):
+    def create_dataset(self, is_training, data, labels, batch_size):
       """Create dataset given input data
 
       Args:
@@ -55,8 +55,6 @@ class GMVAE:
           data: (array) corresponding array containing the input data
           labels: (array) corresponding array containing the labels of the input data
           batch_size: (int) size of each batch to consider from the data
-          x_labeled: (array) corresponding array containing the labeled input data
-          y_labeled: (array) corresponding array containing the labeles of the labeled input data
  
       Returns:
           output: (dict) contains what will be the input of the tensorflow graph
@@ -79,26 +77,13 @@ class GMVAE:
       # create reinitializable iterator from dataset
       iterator = dataset.make_initializable_iterator()
 
-      labeled_data = False
       if labels is None:
         data = iterator.get_next()
       else:
         data, labels = iterator.get_next()
-        
-        # append labeled data to each batch
-        if x_labeled is not None:
-          labeled_data = True
-          _data = tf.concat([data, x_labeled], 0)
-          _labels = tf.concat([labels, y_labeled], 0)
-          
+   
       iterator_init = iterator.initializer
-      
-      if labeled_data:
-        output = {'data': _data, 'labels': _labels, 'iterator_init': iterator_init}
-        output['labels_semisupervised'] = y_labeled
-      else:
-        output = {'data': data, 'labels': labels, 'iterator_init': iterator_init}
-        output['labels_semisupervised'] = None
+      output = {'data': data, 'labels': labels, 'iterator_init': iterator_init}
       return output
 
     
