@@ -185,7 +185,6 @@ class GMVAE:
     
     true_labels_list = []
     predicted_labels_list = []
-    
 
     with torch.no_grad():
       for data, labels in data_loader:
@@ -261,10 +260,8 @@ class GMVAE:
         print("Accuracy=Train: %.5lf; Val: %.5lf   NMI=Train: %.5lf; Val: %.5lf   Total Loss=Train: %.5lf; Val: %.5lf" % \
               (train_acc, val_acc, train_nmi, val_nmi, train_loss, val_loss))
       else:
-        print('(Epoch %d / %d) - Train_Loss: %.3lf, Val_Loss: %.3lf, Train_ACC: %.3lf Val_ACC: %.3lf, Train_NMI: %.3lf Val_NMI: %.3lf' % \
+        print('(Epoch %d / %d) Train_Loss: %.3lf; Val_Loss: %.3lf   Train_ACC: %.3lf; Val_ACC: %.3lf   Train_NMI: %.3lf; Val_NMI: %.3lf' % \
               (epoch, self.num_epochs, train_loss, val_loss, train_acc, val_acc, train_nmi, val_nmi))
-        print('Train - REC: %.5lf, GAUSS: %.5lf, CAT: %.5lf | Val - REC: %.5lf, GAUSS: %.5lf, CAT: %.5lf' % \
-              (train_rec, train_gauss, train_cat, val_rec, val_gauss, val_cat,))
 
       # decay gumbel temperature
       if self.decay_temp == 1:

@@ -12,6 +12,6 @@ Implementation of Gaussian Mixture Variational Autoencoder (GMVAE) for Unsupervi
 
 *  **Caveat**: Tensorflow released the 2.0 version with different changes that will not allow to execute this implementation directly. Check the [migration guide](https://www.tensorflow.org/alpha/guide/migration_guide) for executing this implementation in the 2.0 tensorflow version.
 
-2. [PyTorch](https://pytorch.org/). We tested our method with the **1.2.0** pytorch version. You can Install PyTorch by following the instructions on its website: [https://pytorch.org/get-started/locally/](https://pytorch.org/get-started/locally/).
+2. [PyTorch](https://pytorch.org/). We tested our method with the **1.3.0** pytorch version. You can Install PyTorch by following the instructions on its website: [https://pytorch.org/get-started/locally/](https://pytorch.org/get-started/locally/).
 
 3. [Python 3.6.8](https://www.python.org/downloads/). We implemented our method with the **3.6.8** version. Additional libraries include: numpy, scipy and matplotlib.
