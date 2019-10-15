@@ -207,6 +207,9 @@ class GMVAE:
       avg_loss_rec = 0.0
       avg_loss_gauss = 0.0
       
+      list_predicted_labels = []
+      list_true_labels = []
+
       # initialize dataset iteratior
       self.sess.run(model_spec['iterator_init'])
       
@@ -223,9 +226,9 @@ class GMVAE:
                                                                              feed_dict={self.network.temperature: self.temperature, 
                                                                                         self.learning_rate: self.lr})                                                                                           
           
-          # accumulate values
-          avg_nmi += self.metrics.nmi(predicted_labels, true_labels)
-          avg_accuracy += self.metrics.cluster_acc(predicted_labels, true_labels)
+          # save values
+          list_predicted_labels.append(predicted_labels)
+          list_true_labels.append(true_labels)
           avg_loss_rec += loss_rec_ul
           avg_loss_gauss += loss_gauss_ul
           avg_loss_cat += loss_cat_ul         
@@ -241,26 +244,30 @@ class GMVAE:
                                                      feed_dict={self.network.temperature: self.temperature,
                                                                 self.learning_rate: self.lr})     
 
-          # accumulate values
-          avg_nmi += self.metrics.nmi(predicted_labels, true_labels)
-          avg_accuracy += self.metrics.cluster_acc(predicted_labels, true_labels)
+          # save values
+          list_predicted_labels.append(predicted_labels)
+          list_true_labels.append(true_labels)
           avg_loss_rec += loss_rec_ul
           avg_loss_gauss += loss_gauss_ul
           avg_loss_cat += loss_cat_ul
           avg_loss_total += loss_total
 
-      # average values by the given number of batches
-      avg_accuracy /= num_batches      
+      # average values by the given number of batches 
       avg_loss_rec /= num_batches
       avg_loss_gauss /= num_batches
       avg_loss_cat /= num_batches
       avg_loss_total /= num_batches
-      avg_nmi /= num_batches
+      
+      # average accuracy and nmi of all the data
+      predicted_labels = np.hstack(list_predicted_labels)
+      true_labels = np.hstack(list_true_labels)
+      avg_nmi = self.metrics.nmi(predicted_labels, true_labels)
+      avg_accuracy = self.metrics.cluster_acc(predicted_labels, true_labels)
       
       return {'loss_rec': avg_loss_rec, 'loss_gauss': avg_loss_gauss, 
               'loss_cat': avg_loss_cat, 'loss_total': avg_loss_total, 
               'accuracy': avg_accuracy, 'nmi': avg_nmi}
-    
+
     
     def train(self, train_data, train_labels, val_data, val_labels):
       """Train the model
@@ -386,23 +393,23 @@ class GMVAE:
       num_batches = int(np.ceil(test_data.shape[0] / (1.0 * batch_size)))
       
       # evaluate the model
-      avg_accuracy = 0.0
-      avg_nmi = 0.0
-      
+      list_predicted_labels = []
+      list_true_labels = []
+
       for j in range(num_batches):
         _predicted_labels, _true_labels = self.sess.run([predicted_labels, true_labels], 
                                           feed_dict={self.network.temperature: self.temperature,
                                                      self.learning_rate: self.lr})
-        
-        # calculate clustering accuracy and nmi
-        accuracy = self.metrics.cluster_acc(_predicted_labels, _true_labels)
-        nmi = self.metrics.nmi(_predicted_labels, _true_labels)
-        
-        avg_accuracy += accuracy
-        avg_nmi += nmi
-        
-      avg_accuracy /= num_batches
-      avg_nmi /= num_batches
+
+        # save values
+        list_predicted_labels.append(_predicted_labels)
+        list_true_labels.append(_true_labels)
+
+      # average accuracy and nmi of all the data
+      predicted_labels = np.hstack(list_predicted_labels)
+      true_labels = np.hstack(list_true_labels)
+      avg_nmi = self.metrics.nmi(predicted_labels, true_labels)
+      avg_accuracy = self.metrics.cluster_acc(predicted_labels, true_labels)
       
       return avg_accuracy, avg_nmi
     

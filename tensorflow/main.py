@@ -41,7 +41,7 @@ flags.DEFINE_integer('gpu', 1, 'Using Cuda, 1 to enable')
 flags.DEFINE_integer('gpuID', 0, 'Set GPU Id to use')
 
 ## Training
-flags.DEFINE_integer('batch_size', 300, 'Batch size of training data')
+flags.DEFINE_integer('batch_size', 64, 'Batch size of training data')
 flags.DEFINE_integer('num_epochs', 100, 'Number of epochs in training phase')
 flags.DEFINE_float('learning_rate', 1e-3, 'Learning rate for training')
 flags.DEFINE_float('decay_epoch', -1, 'Reduces the learning rate every decay_epoch')
@@ -49,10 +49,10 @@ flags.DEFINE_float('lr_decay', 0.5, 'Learning rate decay for training')
 
 ## Architecture
 flags.DEFINE_integer('num_classes', 10, 'Number of clusters')
-flags.DEFINE_integer('gaussian_size', 100, 'Size of the gaussian learnt by the network')
+flags.DEFINE_integer('gaussian_size', 64, 'Size of the gaussian learnt by the network')
 
 ## Partition parameters
-flags.DEFINE_float('train_proportion', 0.8, 'Proportion of examples to consider for training only  (0.0-1.0)')
+flags.DEFINE_float('train_proportion', 1.0, 'Proportion of examples to consider for training only  (0.0-1.0)')
 flags.DEFINE_integer('batch_size_val', 200, 'Batch size of validation data')
 flags.DEFINE_integer('batch_size_test', 200, 'Batch size of test data')
 
